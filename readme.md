@@ -10,10 +10,10 @@ Este programa realiza **operações matemáticas com números complexos**, const
 
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
-| (Preencha aqui) | (RA) | (Ex: lógica e parser) |
-| (Preencha aqui) | (RA) | (Ex: interface e testes) |
-| (Preencha aqui) | (RA) | (Ex: documentação) |
-| (Preencha aqui) | (RA) | (Ex: revisão e entrega) |
+| Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo |
+| Ana Priscilla | (RA) | Conhecimento Matematico e testes |
+| Witan de Jesus | (RA) | Lógica do codigo e testes |
+| Fillyoe Araujo | (RA) | Conhecimento Matematico e Ajuda no codigo |
 
 ---
 
