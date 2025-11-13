@@ -44,7 +44,7 @@ Este programa realiza **operações matemáticas com números complexos**, const
 3. Execute o comando:
 
    ```bash
-   python calculadora_complexa.py
+   python CalculadoraComplexa.py
 
 ---
 
