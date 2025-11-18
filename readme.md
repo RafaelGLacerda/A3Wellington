@@ -11,9 +11,9 @@ Este programa realiza **operações matemáticas com números complexos**, const
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
 | Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo e testes |
-| Ana Priscilla Silva Oliveira | 1272411739 | Conhecimento Matematico e testes |
+| Ana Priscilla Silva Oliveira | 1272411739 | Lógica do codigo e testes |
 | Witan Mendes Paixão Nascimento de Jesus | 12724123796 | Lógica do codigo e Relatorio (Readme) |
-| Fillype da Silva Araujo | 12724145904 | Ajuda no codigo e Relatorio (Readme) |
+| Fillype da Silva Araujo | 12724145904 | Lógica do codigo e Relatorio (Readme) |
 
 ---
 
