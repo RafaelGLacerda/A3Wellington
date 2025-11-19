@@ -19,8 +19,8 @@ https://drive.google.com/file/d/1l4rtNaQ3pyl_gpSbj0jz3lBl_hyBIuNJ/view?usp=shari
 
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
-| Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo, Relatorio e Testes |
-| Ana Priscilla Silva Oliveira | 1272411739 | Lógica do codigo, Readme e Testes |
+| Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo, Readme e Testes |
+| Ana Priscilla Silva Oliveira | 1272411739 | Lógica do codigo e Testes |
 | Witan Mendes Paixão Nascimento de Jesus | 12724123796 | Lógica do codigo e Relatorio |
 | Fillype da Silva Araujo | 12724145904 | Lógica do codigo e Relatorio |
 
