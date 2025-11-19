@@ -1,4 +1,4 @@
-# Calculadora Científica de Números Complexos (Linha de Comando) 🧮
+# Calculadora Científica de Números Complexos
 
 **Faculdade:** UNIFACS – Universidade Salvador  
 **Curso:** Ciência da Computação  
@@ -19,10 +19,10 @@ https://drive.google.com/file/d/1l4rtNaQ3pyl_gpSbj0jz3lBl_hyBIuNJ/view?usp=shari
 
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
-| Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo e testes |
+| Rafael Pereira Grigorio de Lacerda | 1272526033 | Lógica do codigo e Relatorio |
 | Ana Priscilla Silva Oliveira | 1272411739 | Lógica do codigo e testes |
-| Witan Mendes Paixão Nascimento de Jesus | 12724123796 | Lógica do codigo e Relatorio (Readme) |
-| Fillype da Silva Araujo | 12724145904 | Lógica do codigo e Relatorio (Readme) |
+| Witan Mendes Paixão Nascimento de Jesus | 12724123796 | Lógica do codigo e Relatorio |
+| Fillype da Silva Araujo | 12724145904 | Lógica do codigo e testes |
 
 ---
 
