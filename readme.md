@@ -1,8 +1,28 @@
 # Calculadora Científica de Números Complexos (Linha de Comando) 🧮
 
-Projeto desenvolvido como parte da atividade prática de **Programação**.
+**Faculdade:** UNIFACS – Universidade Salvador  
+**Curso:** Ciência da Computação  
+**Disciplina:** Estrutura de Dados e Análise de Algoritmos  
+**Professor:** Wellington Lacerda  
+**Data:** 18/11/2025  
+**GitHub do Projeto:** https://github.com/RafaelGLacerda/A3Wellington
 
-Este programa realiza **operações matemáticas com números complexos**, constrói a **árvore sintática** da expressão (em formato LISP), e compara se duas expressões são **equivalentes**.
+---
+
+## 📄 Relatório
+Acesse o relatório completo do projeto no link abaixo:  
+https://drive.google.com/file/d/16O_dF3TawrLXWZ0jnkrKsZTccQtLgYPu/view?usp=sharing
+
+---
+
+## 📘 Sobre o Projeto
+Este programa realiza operações matemáticas com **números complexos**, constrói a **árvore sintática** da expressão (em formato LISP) e verifica se duas expressões são **equivalentes**.
+
+O projeto foi desenvolvido como parte da avaliação da disciplina *Estrutura de Dados e Análise de Algoritmos* e demonstra a aplicação prática de:
+
+- Manipulação e cálculo com números complexos  
+- Construção e exibição de árvores sintáticas  
+- Interpretação e equivalência de expressões matemáticas  
 
 ---
 
