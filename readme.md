@@ -128,7 +128,7 @@ Resultado 1: 5+2i
 
 ### 🔹 Exemplo 8 — Expressão com variável
 Expressão 1: x\*\*2 + conj(x)  
-> O programa perguntará:  
+O programa perguntará:  
 Digite o valor de x (ex: 3+2i):  
 **Se o usuário digitar `3+2i`:**  
 Árvore 1: (+ (\*\* x 2) (conj x))  
