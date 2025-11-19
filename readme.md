@@ -87,7 +87,7 @@ Resultado 1: 3-4i
 ---
 
 ### 🔹 Exemplo 3 — Multiplicação de complexos
-Expressão 1: (3+2i)*(1-4i)  
+Expressão 1: (3+2i)\*(1-4i)  
 **Saída:**  
 Árvore 1: (* (3+2i) (1-4i))  
 Resultado 1: 11-10i
@@ -103,7 +103,7 @@ Resultado 1: 0.5+2.5i
 ---
 
 ### 🔹 Exemplo 5 — Potência de número complexo
-Expressão 1: (1+i)**3  
+Expressão 1: (1+i)\*\*3  
 **Saída:**  
 Árvore 1: (** (1+i) 3)  
 Resultado 1: -2+2i
@@ -127,21 +127,21 @@ Resultado 1: 5+2i
 ---
 
 ### 🔹 Exemplo 8 — Expressão com variável
-Expressão 1: x**2 + conj(x)  
+Expressão 1: x\*\*2 + conj(x)  
 > O programa perguntará:  
 Digite o valor de x (ex: 3+2i):  
 **Se o usuário digitar `3+2i`:**  
-Árvore 1: (+ (** x 2) (conj x))  
+Árvore 1: (+ (\*\* x 2) (conj x))  
 Resultado 1: 10+10i
 
 ---
 
 ### 🔹 Exemplo 9 — Comparação de duas expressões equivalentes
-Expressão 1: (1+i)**2  
+Expressão 1: (1+i)\*\*2  
 Expressão 2: 1 + 2i + i**2  
 **Saída:**  
-Árvore 1: (** (1+i) 2)  
-Árvore 2: (+ (+ 1 (* 2i)) (** i 2))  
+Árvore 1: (\*\* (1+i) 2)  
+Árvore 2: (+ (+ 1 (* 2i)) (\*\* i 2))  
 Resultado 1: 2i  
 Resultado 2: 2i  
 As expressões são EQUIVALENTES.
@@ -156,8 +156,8 @@ Erro: Expressão inválida ou divisão por zero.
 ---
 
 ### 🔹 Exemplo 11 — Exibição da árvore em notação LISP
-Expressão 1: (2+i)*(1-i)  
+Expressão 1: (2+i)\*(1-i)  
 **Saída:**  
-Árvore: (* (2+i) (1-i))  
+Árvore: (\* (2+i) (1-i))  
 Resultado: 3+i  
 
