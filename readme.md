@@ -1,4 +1,4 @@
-# 🧮 Calculadora Científica de Números Complexos (Linha de Comando)
+# Calculadora Científica de Números Complexos (Linha de Comando) 🧮
 
 Projeto desenvolvido como parte da atividade prática de **Programação**.
 
@@ -6,7 +6,7 @@ Este programa realiza **operações matemáticas com números complexos**, const
 
 ---
 
-## 👥 Integrantes do Grupo
+## 👥 Integrantes do Grupo 
 
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
@@ -17,7 +17,7 @@ Este programa realiza **operações matemáticas com números complexos**, const
 
 ---
 
-## 🧠 Funcionalidades
+## Funcionalidades
 
 ✅ Representa números complexos no formato **a + bi** ou **a - bi**  
 ✅ Aceita operadores: `+`, `-`, `*`, `/`, `**` (potência)  
@@ -30,14 +30,14 @@ Este programa realiza **operações matemáticas com números complexos**, const
 
 ---
 
-## ⚙️ Requisitos
+## Requisitos
 
 - Python **3.8+**
 - Nenhuma biblioteca externa é necessária (apenas `cmath` e `re`)
 
 ---
 
-## ▶️ Como Executar
+## Como Executar️
 
 1. Baixe o arquivo `CalculadoraComplexa.py`  
 2. No terminal ou prompt de comando, vá até a pasta onde o arquivo está salvo.  
@@ -48,7 +48,7 @@ Este programa realiza **operações matemáticas com números complexos**, const
 
 ---
 
-## 💡 Exemplos de Funcionamento
+## Exemplos de Funcionamento
 
 ### 🔹 Exemplo 1 — Soma de complexos
 Expressão 1: (3+2i) + (1+4i)  
