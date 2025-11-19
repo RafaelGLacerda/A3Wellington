@@ -37,8 +37,8 @@ class ExpressaoComplexa:
         if temp_expr.startswith('+') or temp_expr.startswith('-'):
             temp_expr = '0' + temp_expr
         # Substitui '(+' ou '(-' por '(0+' ou '(0-' para tratar sinais unários após parênteses
-        temp_expr = temp_expr.replace('(', '(0')
-        temp_expr = temp_expr.replace('(0-', '(-') # Reverte se já for um unário negativo explícito, isso é um ajuste de "melhor esforço"
+        temp_expr = temp_expr.replace('(+', '(0+')
+        temp_expr = temp_expr.replace('(-', '(0-')
 
         self.tokens = self.tokenizar(temp_expr)
         self.pos = 0
@@ -74,15 +74,17 @@ class ExpressaoComplexa:
                 continue
             
             # variável ou 'i'
+
             if c.isalpha():
                 token = c
                 i += 1
-                # Adiciona suporte a variáveis de mais de uma letra, se necessário, mas 'i' é a prioridade
-                # while i < len(t) and t[i].isalpha(): 
-                #     token += t[i]
-                #     i += 1
+                # junta letras consecutivas
+                while i < len(t) and t[i].isalpha():
+                    token += t[i]
+                    i += 1
                 lista.append(token)
                 continue
+
 
             # operadores e parenteses
             if c in "+-*/()√":
