@@ -28,11 +28,19 @@ class No:
 # =====================================================================================================================================================================================================
 
 # A parte que lê o texto e monta a árvore.
-#Passa caracter por caracter, formando tokens.
+# Passa caracter por caracter, formando tokens.
 class ExpressaoComplexa:
     def __init__(self, texto):
         self.expr = texto.replace(" ", "")
-        self.tokens = self.tokenizar(self.expr)
+        # Adiciona um 0 implícito para tratar sinais unários (ex: -1 -> 0-1)
+        temp_expr = self.expr
+        if temp_expr.startswith('+') or temp_expr.startswith('-'):
+            temp_expr = '0' + temp_expr
+        # Substitui '(+' ou '(-' por '(0+' ou '(0-' para tratar sinais unários após parênteses
+        temp_expr = temp_expr.replace('(', '(0')
+        temp_expr = temp_expr.replace('(0-', '(-') # Reverte se já for um unário negativo explícito, isso é um ajuste de "melhor esforço"
+
+        self.tokens = self.tokenizar(temp_expr)
         self.pos = 0
         self.arvore = self.parse_expressao()
 
@@ -44,7 +52,7 @@ class ExpressaoComplexa:
             c = t[i]
 
             # números (vai juntando até acabar)
-            if c.isdigit() or c == '.':
+            if c.isdigit() or (c == '.' and i + 1 < len(t) and t[i + 1].isdigit()):
                 num = c
                 i += 1
                 while i < len(t) and (t[i].isdigit() or t[i] == '.'):
@@ -59,20 +67,25 @@ class ExpressaoComplexa:
                 i += 4
                 continue
 
-            # operadores e parenteses
-            if c in "+-*/()√":
-                lista.append(c)
-                i += 1
-                continue
-
             # potência **
             if t[i:i+2] == "**":
                 lista.append("**")
                 i += 2
                 continue
-
-            # variável (letras)
+            
+            # variável ou 'i'
             if c.isalpha():
+                token = c
+                i += 1
+                # Adiciona suporte a variáveis de mais de uma letra, se necessário, mas 'i' é a prioridade
+                # while i < len(t) and t[i].isalpha(): 
+                #     token += t[i]
+                #     i += 1
+                lista.append(token)
+                continue
+
+            # operadores e parenteses
+            if c in "+-*/()√":
                 lista.append(c)
                 i += 1
                 continue
@@ -113,48 +126,64 @@ class ExpressaoComplexa:
         if t is None:
             raise ValueError("Expressão incompleta.")
 
+        # Parênteses
         if t == '(':
             self.consumir()
             no = self.parse_expressao()
             if self.olhar() != ')':
                 raise ValueError("Faltou fechar parêntese.")
             self.consumir()
-            # potência depois de parênteses
+            
+            # potência depois de parênteses é tratada na recursão
             if self.olhar() == '**':
-                self.consumir()
+                op = self.consumir()
                 exp = self.parse_fator()
-                no = No('**', no, exp)
+                no = No(op, no, exp)
             return no
 
+        # Raiz quadrada
         if t == '√':
             self.consumir()
             interno = self.parse_fator()
             return No('√', interno)
 
+        # Conjugado
         if t == "conj":
             self.consumir()
-            if self.consumir() != '(':
+            if self.olhar() != '(':
                 raise ValueError("Esperado '(' após conj")
+            self.consumir()
             interno = self.parse_expressao()
-            if self.consumir() != ')':
+            if self.olhar() != ')':
                 raise ValueError("Faltou fechar conj()")
+            self.consumir()
             return No("conj", interno)
 
-        # número, variável, i
-        self.consumir()
-
+        # Número ou imaginário
+        
+        # Unidade imaginária 'i' sozinha
         if t == 'i':
+            self.consumir()
             return No(complex(0, 1))
 
-        if self.olhar() == 'i':  # tipo 2i
-            self.consumir()
+        # Se for número seguido de 'i', como '2i'
+        # CORREÇÃO: Acessar a lista de tokens diretamente, em vez de chamar self.olhar(self.pos + 1)
+        if t.replace('.', '', 1).isdigit() and self.pos + 1 < len(self.tokens) and self.tokens[self.pos + 1] == 'i':
+            self.consumir()  # consome número
+            self.consumir()  # consome i
             return No(complex(0, float(t)))
 
-        # tenta converter pra número
-        try:
+        # Número puro
+        if t.replace('.', '', 1).isdigit():
+            self.consumir()
             return No(complex(float(t), 0))
-        except:
+
+        # Variável
+        if t.isalpha():
+            self.consumir()
             return No(t)
+
+        raise ValueError(f"Token desconhecido ou mal formatado: {t}")
 
 
 # =====================================================================================================================================================================================================
@@ -167,26 +196,23 @@ class CalculadoraComplexa:
 
     # raiz 
     def raiz(self, z):
-        # raiz quadrada usando a fórmula básica
-        r = (z.real**2 + z.imag**2)**0.5
-        ang = self.ang(z) / 2
-        mod = r**0.5
-        return complex(mod * self.cos(ang), mod * self.sin(ang))
+        # Usando a função nativa de potência complexa para alta precisão
+        return z ** 0.5
 
-    # seno e cosseno
+    # seno e cosseno (MUITO imprecisos)
     def sin(self, x):
         return x - x**3/6 + x**5/120 - x**7/5040
 
     def cos(self, x):
         return 1 - x**2/2 + x**4/24 - x**6/720
 
-    # ângulo aproximado
+    # ângulo aproximado (MUITO impreciso)
     def ang(self, z):
         if z.real == 0:
             return 1.5708 if z.imag > 0 else -1.5708
         return self.atan(z.imag / z.real)
 
-    # arctan simples
+    # arctan simples (MUITO impreciso)
     def atan(self, x):
         return x - x**3/3 + x**5/5 - x**7/7
 
@@ -198,15 +224,18 @@ class CalculadoraComplexa:
         # variável
         if isinstance(no.valor, str) and no.valor not in ['+', '-', '*', '/', '**', '√', 'conj']:
             if no.valor not in self.vars:
+                # O input deve aceitar a string de complexo como '1+2i'
                 v = input(f"Valor para {no.valor}: ")
                 self.vars[no.valor] = self.parse_complexo(v)
             return self.vars[no.valor]
 
         # operações especiais
         if no.valor == '√':
+            # Raiz tem apenas o filho esquerdo
             return self.raiz(self.avaliar(no.esq))
 
         if no.valor == 'conj':
+            # Conjugado tem apenas o filho esquerdo
             v = self.avaliar(no.esq)
             return complex(v.real, -v.imag)
 
@@ -226,8 +255,17 @@ class CalculadoraComplexa:
         raise ValueError("Operador inválido.")
 
     def parse_complexo(self, txt):
-        txt = txt.replace("i", "j")
-        return complex(txt)
+        # Corrigido para lidar com a string 'i' ou números complexos como '1+2i'
+        txt = txt.replace("i", "j") # Python usa 'j' para imaginário
+        if txt == 'j':
+            return complex(0, 1)
+        if txt == '-j':
+            return complex(0, -1)
+        try:
+            return complex(txt)
+        except ValueError:
+            raise ValueError(f"Formato de número complexo inválido: {txt}")
+
 
     def executar(self):
         return self.avaliar(self.expr.arvore)
@@ -256,16 +294,17 @@ def main():
         try:
             # Cria e avalia a primeira expressão
             c1 = CalculadoraComplexa(e1)
-            r1 = c1.executar()
+            r1 = c1.executar() 
             print("Árvore 1:", c1.expr.arvore)
-            print("Resultado 1:", r1) 
+            # Formata a saída de complexo para 'x+yi' em vez de 'x+yj'
+            print("Resultado 1:", str(r1).replace('j', 'i')) 
             
-             # Se o usuário digitou uma segunda expressão, compara
+            # Se o usuário digitou uma segunda expressão, compara
             if e2:
                 c2 = CalculadoraComplexa(e2)
                 r2 = c2.executar()
                 print("Árvore 2:", c2.expr.arvore)
-                print("Resultado 2:", r2)
+                print("Resultado 2:", str(r2).replace('j', 'i'))
 
                 # Verifica se os resultados são praticamente iguais
                 if abs(r1 - r2) < 1e-9:
