@@ -1,14 +1,10 @@
 # Observação, o código está lotado de comentários para uma melhor explicação de cada função dentro dele.
 
-import re
-import cmath
-
-
 # Calculadora de Números Complexos (modo texto no terminal).
 # Esse código serve pra interpretar expressões matemáticas que envolvem números complexos (tipo 1+2i), com operadores: +, -, *, /, ** (potência), √ (raiz), e conj() (conjugado).
 # Ele também constrói uma "árvore de expressão", o que significa que ele entende a ordem correta das operações (tipo primeiro * depois +) e ainda permite o uso de variáveis.
 
-# ======================================================================================================================
+# =====================================================================================================================================================================================================
 
 # Inicio: CLASSE No — Representa um "nó" da árvore de expressão.
 # Cada nó é basicamente uma caixinha que guarda:
@@ -16,178 +12,228 @@ import cmath
 # - o filho esquerdo e o filho direito (dependendo da operação)
 # Isso é usado pra montar a árvore da expressão e depois percorrê-la.
 class No:
-    def __init__(self, valor, esquerdo=None, direito=None):
+    def __init__(self, valor, esq=None, dir=None):
         self.valor = valor
-        self.esquerdo = esquerdo
-        self.direito = direito
+        self.esq = esq
+        self.dir = dir
 
     def __repr__(self):
-        if self.esquerdo and self.direito:
-            return f"({self.valor} {self.esquerdo} {self.direito})"
-        elif self.esquerdo:
-            return f"({self.valor} {self.esquerdo})"
+        if self.esq and self.dir:
+            return f"({self.valor} {self.esq} {self.dir})"
+        if self.esq:
+            return f"({self.valor} {self.esq})"
         return str(self.valor)
 
 
-# CLASSE ExpressaoComplexa — Lê a expressão e monta a árvore.
-# Aqui acontece toda a da interpretação. Ela pega o texto que o usuário digitou e transforma em uma estrutura de árvore pra depois calcular certinho.
-class ExpressaoComplexa:
-    def __init__(self, expr):
-        self.expr = expr.replace(" ", "") # tira espaços da expressão
-        self.tokens = self.tokenizar(self.expr) # separa a expressão em partes
-        self.pos = 0 # controla onde estamos na lista de tokens
-        self.arvore = self.parse_expressao()  # monta a árvore de fato
+# =====================================================================================================================================================================================================
 
-    def tokenizar(self, expr):
-        # separa a expressão em pedaços (números, operadores, etc)
-        padrao = r'(\*\*|[+\-*/()√]|conj|[A-Za-z_]\w*|\d+(?:\.\d+)?|i)'
-        tokens = re.findall(padrao, expr)
-        return [t for t in tokens if t.strip()]
+# A parte que lê o texto e monta a árvore.
+#Passa caracter por caracter, formando tokens.
+class ExpressaoComplexa:
+    def __init__(self, texto):
+        self.expr = texto.replace(" ", "")
+        self.tokens = self.tokenizar(self.expr)
+        self.pos = 0
+        self.arvore = self.parse_expressao()
+
+    # Tokenizador sem regex
+    def tokenizar(self, t):
+        lista = []
+        i = 0
+        while i < len(t):
+            c = t[i]
+
+            # números (vai juntando até acabar)
+            if c.isdigit() or c == '.':
+                num = c
+                i += 1
+                while i < len(t) and (t[i].isdigit() or t[i] == '.'):
+                    num += t[i]
+                    i += 1
+                lista.append(num)
+                continue
+
+            # conj escrito direto
+            if t[i:i+4] == "conj":
+                lista.append("conj")
+                i += 4
+                continue
+
+            # operadores e parenteses
+            if c in "+-*/()√":
+                lista.append(c)
+                i += 1
+                continue
+
+            # potência **
+            if t[i:i+2] == "**":
+                lista.append("**")
+                i += 2
+                continue
+
+            # variável (letras)
+            if c.isalpha():
+                lista.append(c)
+                i += 1
+                continue
+
+            i += 1
+
+        return lista
 
     def olhar(self):
-       # "Olhar" o próximo token SEM consumir (sem avançar)
         return self.tokens[self.pos] if self.pos < len(self.tokens) else None
 
     def consumir(self):
-        # "Consumir" o token atual e avançar pro próximo
-        token = self.olhar()
+        tok = self.olhar()
         self.pos += 1
-        return token
+        return tok
 
-    # A partir daqui vêm as funções que constroem a árvore respeitando a hierarquia das operações (ordem de precedência)
+    # expressão → termo (+ ou - termo)
     def parse_expressao(self):
-         # expressão = termo (+ ou - termo)
         no = self.parse_termo()
         while self.olhar() in ('+', '-'):
             op = self.consumir()
-            direito = self.parse_termo()
-            no = No(op, no, direito)
+            direita = self.parse_termo()
+            no = No(op, no, direita)
         return no
 
+    # termo → fator (* / ** fator)
     def parse_termo(self):
-         # termo = fator (* ou / ou ** fator)
         no = self.parse_fator()
         while self.olhar() in ('*', '/', '**'):
             op = self.consumir()
-            direito = self.parse_fator()
-            no = No(op, no, direito)
+            direita = self.parse_fator()
+            no = No(op, no, direita)
         return no
 
-
+    # fator → número, variável, (), raiz, conj()
     def parse_fator(self):
-        # Aqui ele trata os casos básicos: número, variável, (), conj(), √
-        token = self.olhar()
-        if token is None:
-            raise ValueError("Erro: expressão incompleta.")
+        t = self.olhar()
+        if t is None:
+            raise ValueError("Expressão incompleta.")
 
-       # Se for um parêntese abrindo, entra recursivamente
-        if token == '(':
+        if t == '(':
             self.consumir()
-            no = self.parse_expressao() # analisa o que tem dentro dos parênteses
+            no = self.parse_expressao()
             if self.olhar() != ')':
-                raise ValueError("Erro: Falta ')' no final da expressão.")
+                raise ValueError("Faltou fechar parêntese.")
             self.consumir()
-             # se tiver potência depois de parêntese, tipo (2+3)**2
+            # potência depois de parênteses
             if self.olhar() == '**':
                 self.consumir()
-                expoente = self.parse_fator()
-                no = No('**', no, expoente)
+                exp = self.parse_fator()
+                no = No('**', no, exp)
             return no
 
-        # Raiz quadrada
-        elif token == '√':
+        if t == '√':
             self.consumir()
             interno = self.parse_fator()
             return No('√', interno)
 
-        # Conjugado
-        elif token == 'conj':
+        if t == "conj":
             self.consumir()
-            if self.olhar() != '(':
-                raise ValueError("Erro: esperado '(' após 'conj'.")
-            self.consumir()
+            if self.consumir() != '(':
+                raise ValueError("Esperado '(' após conj")
             interno = self.parse_expressao()
-            if self.olhar() != ')':
-                raise ValueError("Erro: Falta ')' no final de conj().")
+            if self.consumir() != ')':
+                raise ValueError("Faltou fechar conj()")
+            return No("conj", interno)
+
+        # número, variável, i
+        self.consumir()
+
+        if t == 'i':
+            return No(complex(0, 1))
+
+        if self.olhar() == 'i':  # tipo 2i
             self.consumir()
-            return No('conj', interno)
+            return No(complex(0, float(t)))
 
-       # Se for número, variável ou 'i'
-        elif re.match(r'\d', token) or token == 'i' or re.match(r'[A-Za-z_]\w*', token):
-            self.consumir()
-            if token == 'i':
-                return No(complex(0, 1))
-            # Caso tipo "2i" (número seguido de 'i')
-            if self.olhar() == 'i':
-                self.consumir()
-                return No(complex(0, float(token)))
-            try:
-                # Tenta converter pra número complexo com parte real
-                return No(complex(float(token), 0))
-            except:
-                # Se não for número, deve ser variável (ex: x)
-                return No(token)
-
-        else:
-            raise ValueError(f"Erro: token inesperado '{token}'.")
+        # tenta converter pra número
+        try:
+            return No(complex(float(t), 0))
+        except:
+            return No(t)
 
 
-# CLASSE CalculadoraComplexa — Executa os cálculos da árvore.
-# Essa parte realmente "avalia" a árvore, ou seja, faz as contas. Ela percorre os nós, resolve as operações, e retorna o resultado.
+# =====================================================================================================================================================================================================
+
+# Avaliador que realmente calcula o resultado.
 class CalculadoraComplexa:
-    def __init__(self, expr):
-        self.expr = ExpressaoComplexa(expr) # cria a árvore a partir da expressão
-        self.vars = {} # dicionário pra guardar valores das variáveis
+    def __init__(self, texto):
+        self.expr = ExpressaoComplexa(texto)
+        self.vars = {}
 
-    
+    # raiz 
+    def raiz(self, z):
+        # raiz quadrada usando a fórmula básica
+        r = (z.real**2 + z.imag**2)**0.5
+        ang = self.ang(z) / 2
+        mod = r**0.5
+        return complex(mod * self.cos(ang), mod * self.sin(ang))
+
+    # seno e cosseno
+    def sin(self, x):
+        return x - x**3/6 + x**5/120 - x**7/5040
+
+    def cos(self, x):
+        return 1 - x**2/2 + x**4/24 - x**6/720
+
+    # ângulo aproximado
+    def ang(self, z):
+        if z.real == 0:
+            return 1.5708 if z.imag > 0 else -1.5708
+        return self.atan(z.imag / z.real)
+
+    # arctan simples
+    def atan(self, x):
+        return x - x**3/3 + x**5/5 - x**7/7
+
     def avaliar(self, no):
-         # Caso base: se o valor do nó já é um número complexo
+        # número direto
         if isinstance(no.valor, complex):
             return no.valor
 
-        # se for variável, pede o valor para o usuario
-        if isinstance(no.valor, str) and re.match(r'^[A-Za-z_]\w*$', no.valor):
+        # variável
+        if isinstance(no.valor, str) and no.valor not in ['+', '-', '*', '/', '**', '√', 'conj']:
             if no.valor not in self.vars:
-                val = input(f"Digite o valor da variável {no.valor} (ex: 3+2i): ")
-                self.vars[no.valor] = self.parse_complexo(val)
+                v = input(f"Valor para {no.valor}: ")
+                self.vars[no.valor] = self.parse_complexo(v)
             return self.vars[no.valor]
 
-       # Aqui funções especiais - raiz quadrada e conjugado
+        # operações especiais
         if no.valor == '√':
-            return cmath.sqrt(self.avaliar(no.esquerdo))
+            return self.raiz(self.avaliar(no.esq))
+
         if no.valor == 'conj':
-            v = self.avaliar(no.esquerdo)
+            v = self.avaliar(no.esq)
             return complex(v.real, -v.imag)
 
-        # Aqui faz as operações normais - (+, -, *, /, **)
-        esquerdo = self.avaliar(no.esquerdo)
-        direito = self.avaliar(no.direito)
+        # operações normais
+        e = self.avaliar(no.esq)
+        d = self.avaliar(no.dir)
 
-        if no.valor == '+':
-            return esquerdo + direito
-        elif no.valor == '-':
-            return esquerdo - direito
-        elif no.valor == '*':
-            return esquerdo * direito
-        elif no.valor == '/':
-            if direito == 0:
+        if no.valor == '+': return e + d
+        if no.valor == '-': return e - d
+        if no.valor == '*': return e * d
+        if no.valor == '/':
+            if d == 0:
                 raise ZeroDivisionError("Divisão por zero.")
-            return esquerdo / direito
-        elif no.valor == '**':
-            return esquerdo ** direito
-        else:
-            raise ValueError(f"Operador inválido: {no.valor}")
+            return e / d
+        if no.valor == '**': return e ** d
 
-    def parse_complexo(self, texto):
-        # Substitui 'i' por 'j' pra compatibilizar com o Python (que usa j)
-        texto = texto.replace('i', 'j')
-        return complex(texto)
+        raise ValueError("Operador inválido.")
+
+    def parse_complexo(self, txt):
+        txt = txt.replace("i", "j")
+        return complex(txt)
 
     def executar(self):
-        # Chama o avaliador na árvore principal e retorna o resultado
         return self.avaliar(self.expr.arvore)
 
 
+# =====================================================================================================================================================================================================
 
 # FUNÇÃO PRINCIPAL (main)
 # Aqui é onde o usuário interage com o programa. Ele pode digitar expressões, comparar duas expressões e sair.
@@ -199,39 +245,39 @@ def main():
     print("Digite 'sair' para encerrar.\n")
 
     while True:
-        expr1 = input("Expressão 1: ").strip()
-        if expr1.lower() == 'sair': 
+        e1 = input("Expressão 1: ").strip()
+        if e1.lower() == "sair":
             break
-        if not expr1:
+        if not e1:
             continue # se o usuário só apertar Enter, ignora
 
-        expr2 = input("Expressão 2 (deixe vazio se não quiser comparar): ").strip()
+        e2 = input("Expressão 2 (Aperte ENTER caso não queira comparar): ").strip()
 
         try:
             # Cria e avalia a primeira expressão
-            calc1 = CalculadoraComplexa(expr1)
-            res1 = calc1.executar()
-            print(f"\nÁrvore 1: {calc1.expr.arvore}")
-            print(f"Resultado 1: {res1}")
-
-            # Se o usuário digitou uma segunda expressão, compara
-            if expr2:
-                calc2 = CalculadoraComplexa(expr2)
-                res2 = calc2.executar()
-                print(f"\nÁrvore 2: {calc2.expr.arvore}")
-                print(f"Resultado 2: {res2}")
+            c1 = CalculadoraComplexa(e1)
+            r1 = c1.executar()
+            print("Árvore 1:", c1.expr.arvore)
+            print("Resultado 1:", r1) 
+            
+             # Se o usuário digitou uma segunda expressão, compara
+            if e2:
+                c2 = CalculadoraComplexa(e2)
+                r2 = c2.executar()
+                print("Árvore 2:", c2.expr.arvore)
+                print("Resultado 2:", r2)
 
                 # Verifica se os resultados são praticamente iguais
-                if abs(res1 - res2) < 1e-9:
-                    print("As expressões são EQUIVALENTES.")
+                if abs(r1 - r2) < 1e-9:
+                    print("As expressões são equivalentes.")
                 else:
-                    print("As expressões são DIFERENTES.")
-                    
+                    print("As expressões são diferentes.")
+
         except Exception as e:
-            # Se der erro em qualquer parte, mostra mensagem
-            print(f"Erro na expressão: {e}")
+            print("Erro:", e) # Mensagem de Erro.
+
         print()
 
-# Só executa o programa se o arquivo for rodado diretamente
+
 if __name__ == "__main__":
     main()
