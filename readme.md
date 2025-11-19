@@ -11,6 +11,7 @@
 
 ## 📄 Relatório
 Acesse o relatório completo do projeto no link abaixo:  
+https://drive.google.com/file/d/1HyH09N4_uJx2R4H1353xWxGxg7I9tm7d/view?usp=sharing
 
 ---
 
@@ -57,7 +58,7 @@ O programa também permite comparar duas expressões para verificar se produzem 
 ### 🔹 Exemplo 1 — Soma de complexos
 Expressão 1: (3+2i) + (1+4i)  
 **Saída:**  
-Árvore 1: (+ (+ (3+0j) 2j) (+ (1+0j) 4j))
+Árvore 1: (+ (+ (3+0j) 2j) (+ (1+0j) 4j))    
 Resultado 1: 4+6i
 
 ---
@@ -65,7 +66,7 @@ Resultado 1: 4+6i
 ### 🔹 Exemplo 2 — Subtração de complexos
 Expressão 1: (5+3i) - (2+7i)  
 **Saída:**  
-Árvore 1: (- (+ (5+0j) 3j) (+ (2+0j) 7j))
+Árvore 1: (- (+ (5+0j) 3j) (+ (2+0j) 7j))   
 Resultado 1: 3-4i
 
 ---
@@ -73,7 +74,7 @@ Resultado 1: 3-4i
 ### 🔹 Exemplo 3 — Multiplicação de complexos
 Expressão 1: (3+2i)\*(1-4i)  
 **Saída:**  
-Árvore 1: (\* (+ (3+0j) 2j) (- (1+0j) 4j))
+Árvore 1: (\* (+ (3+0j) 2j) (- (1+0j) 4j))     
 Resultado 1: 11-10i
 
 ---
@@ -81,7 +82,7 @@ Resultado 1: 11-10i
 ### 🔹 Exemplo 4 — Divisão de complexos
 Expressão 1: (2+3i)/(1-i)  
 **Saída:**  
-Árvore 1: (/ (+ (2+0j) 3j) (- (1+0j) 1j)) 
+Árvore 1: (/ (+ (2+0j) 3j) (- (1+0j) 1j))      
 Resultado 1: -0.5+2.5i
 
 ---
@@ -89,7 +90,7 @@ Resultado 1: -0.5+2.5i
 ### 🔹 Exemplo 5 — Potência de número complexo
 Expressão 1: (1+i)\*\*3  
 **Saída:**  
-Árvore 1: (\*\* (+ (1+0j) 1j) (3+0j))  
+Árvore 1: (\*\* (+ (1+0j) 1j) (3+0j))    
 Resultado 1: -2+2i
 
 ---
@@ -97,7 +98,7 @@ Resultado 1: -2+2i
 ### 🔹 Exemplo 6 — Raiz quadrada de número complexo
 Expressão 1: √(3+4i)  
 **Saída:**  
-Árvore 1: (√ (+ (3+0j) 4j))
+Árvore 1: (√ (+ (3+0j) 4j))    
 Resultado 1: (2+1i)
 
 ---
@@ -105,7 +106,7 @@ Resultado 1: (2+1i)
 ### 🔹 Exemplo 7 — Conjugado de número complexo
 Expressão 1: conj(5-2i)  
 **Saída:**  
-Árvore 1: (conj (- (5+0j) 2j))  
+Árvore 1: (conj (- (5+0j) 2j))      
 Resultado 1: 5+2i
 
 ---
@@ -116,7 +117,7 @@ O programa perguntará:
 Digite o valor de x (ex: 3+2i):  
 **Se o usuário digitar `3+2i`:**   
 **Saída:**   
-Árvore 1: (+ (\*\* x 2) (conj x))  
+Árvore 1: (+ (\*\* x 2) (conj x))       
 Resultado 1: 8 + 10i
 
 ---
@@ -125,9 +126,9 @@ Resultado 1: 8 + 10i
 Expressão 1: (1+i)\*\*2  
 Expressão 2: 1 + 2i + i\*\*2  
 **Saída:**  
-Árvore 1: (\*\* (+ (1+0j) 1j) (2+0j))
-Resultado 1: 2i 
-Árvore 2: (+ (+ (1+0j) 2j) (\*\* 1j (2+0j)))  
+Árvore 1: (\*\* (+ (1+0j) 1j) (2+0j))         
+Resultado 1: 2i            
+Árvore 2: (+ (+ (1+0j) 2j) (\*\* 1j (2+0j)))             
 Resultado 2: 2i  
 As expressões são EQUIVALENTES.
 
@@ -135,6 +136,6 @@ As expressões são EQUIVALENTES.
 
 ### 🔹 Exemplo 10 — Detecção de erro
 Expressão 1: 1 /(1-1)  
-**Saída:**  
-Erro: Divisão por zero.
+**Saída:**       
+Resultado 1: Erro: Divisão por zero.
 
