@@ -31,27 +31,32 @@ class No:
 # Passa caracter por caracter, formando tokens.
 class ExpressaoComplexa:
     def __init__(self, texto):
+        # Remove espaços da expressão para simplificar o processamento
         self.expr = texto.replace(" ", "")
-        # Adiciona um 0 implícito para tratar sinais unários (ex: -1 -> 0-1)
         temp_expr = self.expr
+
+        # Adiciona '0' antes de sinais unários no início da expressão ou após parênteses
         if temp_expr.startswith('+') or temp_expr.startswith('-'):
             temp_expr = '0' + temp_expr
         # Substitui '(+' ou '(-' por '(0+' ou '(0-' para tratar sinais unários após parênteses
         temp_expr = temp_expr.replace('(+', '(0+')
         temp_expr = temp_expr.replace('(-', '(0-')
 
+        # Divide a expressão em tokens (números, operadores, variáveis, funções, parênteses)
         self.tokens = self.tokenizar(temp_expr)
+        # Índice do token atual
         self.pos = 0
+        # Gera a árvore de expressão que representa a ordem correta das operações
         self.arvore = self.parse_expressao()
 
-    # Tokenizador sem regex
+    # Tokenizador: transforma a expressão em uma lista de tokens (números, operadores, variáveis, funções, parênteses)
     def tokenizar(self, t):
         lista = []
         i = 0
         while i < len(t):
             c = t[i]
 
-            # números (vai juntando até acabar)
+            # Números (inteiros ou decimais)
             if c.isdigit() or (c == '.' and i + 1 < len(t) and t[i + 1].isdigit()):
                 num = c
                 i += 1
@@ -61,7 +66,7 @@ class ExpressaoComplexa:
                 lista.append(num)
                 continue
 
-            # conj escrito direto
+            # Função 'conj' como token único
             if t[i:i+4] == "conj":
                 lista.append("conj")
                 i += 4
@@ -73,8 +78,7 @@ class ExpressaoComplexa:
                 i += 2
                 continue
             
-            # variável ou 'i'
-
+            # Variáveis ou letras (ex: x, y, i)
             if c.isalpha():
                 token = c
                 i += 1
@@ -92,13 +96,16 @@ class ExpressaoComplexa:
                 i += 1
                 continue
 
+            # Ignora qualquer outro caractere (segurança)
             i += 1
 
         return lista
 
+    # Retorna o token atual sem avançar
     def olhar(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else None
 
+    # Retorna o token atual e avança para o próximo
     def consumir(self):
         tok = self.olhar()
         self.pos += 1
@@ -161,9 +168,7 @@ class ExpressaoComplexa:
             self.consumir()
             return No("conj", interno)
 
-        # Número ou imaginário
-        
-        # Unidade imaginária 'i' sozinha
+        # Número ou imaginário - Unidade imaginária 'i' sozinha
         if t == 'i':
             self.consumir()
             return No(complex(0, 1))
@@ -287,9 +292,9 @@ def main():
     while True:
         e1 = input("Expressão 1: ").strip()
         if e1.lower() == "sair":
-            break
+            break # se o usuário só escrever Sair, encerra.
         if not e1:
-            continue # se o usuário só apertar Enter, ignora
+            continue # se o usuário só apertar Enter, ignora.
 
         e2 = input("Expressão 2 (Aperte ENTER caso não queira comparar): ").strip()
 
