@@ -55,7 +55,7 @@ O programa também permite comparar duas expressões para verificar se produzem 
 
 ## Exemplos de Funcionamento
 
-### 🔹 Exemplo 1 — Soma de complexos
+### 🔹 Exemplo 1 — Soma
 Expressão 1: (3+2i) + (1+4i)  
 **Saída:**  
 Árvore 1: (+ (+ (3+0j) 2j) (+ (1+0j) 4j))    
@@ -63,7 +63,7 @@ Resultado 1: 4+6i
 
 ---
 
-### 🔹 Exemplo 2 — Subtração de complexos
+### 🔹 Exemplo 2 — Subtração
 Expressão 1: (5+3i) - (2+7i)  
 **Saída:**  
 Árvore 1: (- (+ (5+0j) 3j) (+ (2+0j) 7j))   
@@ -71,7 +71,7 @@ Resultado 1: 3-4i
 
 ---
 
-### 🔹 Exemplo 3 — Multiplicação de complexos
+### 🔹 Exemplo 3 — Multiplicação
 Expressão 1: (3+2i)\*(1-4i)  
 **Saída:**  
 Árvore 1: (\* (+ (3+0j) 2j) (- (1+0j) 4j))     
@@ -79,7 +79,7 @@ Resultado 1: 11-10i
 
 ---
 
-### 🔹 Exemplo 4 — Divisão de complexos
+### 🔹 Exemplo 4 — Divisão
 Expressão 1: (2+3i)/(1-i)  
 **Saída:**  
 Árvore 1: (/ (+ (2+0j) 3j) (- (1+0j) 1j))      
@@ -87,7 +87,7 @@ Resultado 1: -0.5+2.5i
 
 ---
 
-### 🔹 Exemplo 5 — Potência de número complexo
+### 🔹 Exemplo 5 — Potência
 Expressão 1: (1+i)\*\*3  
 **Saída:**  
 Árvore 1: (\*\* (+ (1+0j) 1j) (3+0j))    
@@ -95,7 +95,7 @@ Resultado 1: -2+2i
 
 ---
 
-### 🔹 Exemplo 6 — Raiz quadrada de número complexo
+### 🔹 Exemplo 6 — Raiz quadrada
 Expressão 1: √(3+4i)  
 **Saída:**  
 Árvore 1: (√ (+ (3+0j) 4j))    
@@ -103,7 +103,7 @@ Resultado 1: (2+1i)
 
 ---
 
-### 🔹 Exemplo 7 — Conjugado de número complexo
+### 🔹 Exemplo 7 — Conjugado
 Expressão 1: conj(5-2i)  
 **Saída:**  
 Árvore 1: (conj (- (5+0j) 2j))      
