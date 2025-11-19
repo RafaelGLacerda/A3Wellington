@@ -55,7 +55,7 @@ O programa também permite comparar duas expressões para verificar se produzem 
 ## Exemplos de Funcionamento
 
 ### 🔹 Exemplo 1 — Soma de complexos
-Expressão 1: (3+2i) + (1+4i) 
+Expressão 1: (3+2i) + (1+4i)  
 **Saída:**  
 Árvore 1: (+ (+ (3+0j) 2j) (+ (1+0j) 4j))
 Resultado 1: 4+6i
@@ -114,7 +114,8 @@ Resultado 1: 5+2i
 Expressão 1: x\*\*2 + conj(x)  
 O programa perguntará:  
 Digite o valor de x (ex: 3+2i):  
-**Se o usuário digitar `3+2i`:**  
+**Se o usuário digitar `3+2i`:**   
+**Saída:**   
 Árvore 1: (+ (\*\* x 2) (conj x))  
 Resultado 1: 8 + 10i
 
