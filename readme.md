@@ -26,7 +26,7 @@ https://drive.google.com/file/d/1l4rtNaQ3pyl_gpSbj0jz3lBl_hyBIuNJ/view?usp=shari
 
 ---
 
-## 📘 Sobre o Projeto
+## Sobre o Projeto
 Este código implementa uma calculadora de números complexos que interpreta expressões digitadas pelo usuário, constrói a árvore sintática correspondente e calcula o resultado.
 
 A expressão é lida caractere por caractere, transformada em tokens e organizada em uma árvore em notação LISP, respeitando a ordem correta das operações. A avaliação dessa árvore permite realizar soma, subtração, multiplicação, divisão, potência, raiz quadrada, conjugado e operações com variáveis.
