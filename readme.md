@@ -16,7 +16,7 @@ https://drive.google.com/file/d/16O_dF3TawrLXWZ0jnkrKsZTccQtLgYPu/view?usp=shari
 ---
 
 ## 📘 Sobre o Projeto
-Este programa realiza operações matemáticas com **números complexos**, constrói a **árvore sintática** da expressão (em formato LISP) e verifica se duas expressões são **equivalentes**.
+Este programa realiza operações matemáticas com números complexos, constrói a árvore sintática da expressão (em formato LISP) e verifica se duas expressões são equivalentes.
 
 O projeto foi desenvolvido como parte da avaliação da disciplina *Estrutura de Dados e Análise de Algoritmos* e demonstra a aplicação prática de:
 
