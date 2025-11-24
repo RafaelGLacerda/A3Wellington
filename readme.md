@@ -9,13 +9,13 @@
 
 ---
 
-## 📄 Relatório
+## Relatório
 Acesse o relatório completo do projeto no link abaixo:  
 https://drive.google.com/file/d/1l4rtNaQ3pyl_gpSbj0jz3lBl_hyBIuNJ/view?usp=sharing
 
 ---
 
-## 👥 Integrantes do Grupo 
+## Integrantes do Grupo 
 
 | Nome Completo | RA | Função no grupo |
 |----------------|----|----------------|
