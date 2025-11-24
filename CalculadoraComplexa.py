@@ -206,20 +206,23 @@ class CalculadoraComplexa:
         # Usando a função nativa de potência complexa para alta precisão
         return z ** 0.5
 
-    # seno e cosseno (MUITO imprecisos)
+    
+    # sin, cos, ângulo e arctan são extremamente imprecisos e apenas funcionam bem para valores muito pequenos (perto de 0), e mesmo assim com erros relevantes. (talvez seja irrelevante no projeto)
+    
+    # seno e cosseno (imprecisos)
     def sin(self, x):
         return x - x**3/6 + x**5/120 - x**7/5040
 
     def cos(self, x):
         return 1 - x**2/2 + x**4/24 - x**6/720
 
-    # ângulo aproximado (MUITO impreciso)
+    # ângulo aproximado (impreciso)
     def ang(self, z):
         if z.real == 0:
             return 1.5708 if z.imag > 0 else -1.5708
         return self.atan(z.imag / z.real)
 
-    # arctan simples (MUITO impreciso)
+    # arctan simples (impreciso)
     def atan(self, x):
         return x - x**3/3 + x**5/5 - x**7/7
 
