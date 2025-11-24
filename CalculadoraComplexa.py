@@ -1,6 +1,6 @@
 # Observação, o código está lotado de comentários para uma melhor explicação de cada função dentro dele.
 
-# Calculadora de Números Complexos (modo texto no terminal).
+# Calculadora de Números Complexos.
 # Esse código serve pra interpretar expressões matemáticas que envolvem números complexos (tipo 1+2i), com operadores: +, -, *, /, ** (potência), √ (raiz), e conj() (conjugado).
 # Ele também constrói uma "árvore de expressão", o que significa que ele entende a ordem correta das operações (tipo primeiro * depois +) e ainda permite o uso de variáveis.
 
